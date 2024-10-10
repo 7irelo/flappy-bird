@@ -1,4 +1,4 @@
-# Flappy Bird - Unity Game
+# Flappy Bird
 
 Welcome to **Flappy Bird**, a simple yet challenging game developed using Unity. Inspired by the classic Flappy Bird, the objective of the game is to navigate the bird through a series of pipes without colliding with them.
 
