@@ -42,7 +42,8 @@ To run the game locally on your machine, follow these steps:
 
 ## 🖼 Screenshots
 
-*(Add screenshots or gifs of your game in action here)*
+![image](https://github.com/user-attachments/assets/e516b3d5-1deb-441e-b5ad-c645547bfd2f)
+![image](https://github.com/user-attachments/assets/4e141364-d4c3-4294-8264-0eea7b9bf3ee)
 
 ## 🚀 Future Enhancements
 
