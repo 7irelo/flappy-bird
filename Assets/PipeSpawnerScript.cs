@@ -9,20 +9,20 @@ public class PipeSpawnerScript : MonoBehaviour
     public float minSpawnRate = 0.5f;
     public float spawnRateDecreaseFactor = 5f;
     public float heightOffsetPercentage = 0.3f;
-    private float currentSpawnRate;
-    private float timer = 0f;
+    private float _currentSpawnRate;
+    private float _timer = 0f;
 
-    private List<GameObject> pipePool;
+    private List<GameObject> _pipePool;
     public int poolSize = 5;
     public float pipeSpeed = 5f;
-    private float screenRightEdge;
+    private float _screenRightEdge;
 
     void Start()
     {
-        currentSpawnRate = initialSpawnRate;
+        _currentSpawnRate = initialSpawnRate;
 
         // Calculate the right edge of the screen based on 1080p resolution
-        screenRightEdge = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x + 2f;
+        _screenRightEdge = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x + 2f;
 
         // Initialize the pipe object pool
         InitializePipePool();
@@ -30,14 +30,14 @@ public class PipeSpawnerScript : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
+        _timer += Time.deltaTime;
 
         // Spawn pipes based on current spawn rate
-        if (timer >= currentSpawnRate)
+        if (_timer >= _currentSpawnRate)
         {
             SpawnPipeFromPool();
             AdjustSpawnRate();
-            timer = 0f;
+            _timer = 0f;
         }
 
         // Move pipes and recycle them
@@ -46,18 +46,18 @@ public class PipeSpawnerScript : MonoBehaviour
 
     void InitializePipePool()
     {
-        pipePool = new List<GameObject>();
+        _pipePool = new List<GameObject>();
         for (int i = 0; i < poolSize; i++)
         {
             GameObject pipe = Instantiate(pipePrefab);
             pipe.SetActive(false);  // Disable initially
-            pipePool.Add(pipe);
+            _pipePool.Add(pipe);
         }
     }
 
     void SpawnPipeFromPool()
     {
-        foreach (GameObject pipe in pipePool)
+        foreach (GameObject pipe in _pipePool)
         {
             if (!pipe.activeInHierarchy)
             {
@@ -66,7 +66,7 @@ public class PipeSpawnerScript : MonoBehaviour
                 float randomHeight = Random.Range(lowestPoint, highestPoint);
 
                 // Set pipe position offscreen to the right
-                pipe.transform.position = new Vector3(screenRightEdge, randomHeight, 0);
+                pipe.transform.position = new Vector3(_screenRightEdge, randomHeight, 0);
                 pipe.SetActive(true);
                 break;
             }
@@ -76,15 +76,15 @@ public class PipeSpawnerScript : MonoBehaviour
     void AdjustSpawnRate()
     {
         // Decrease spawn rate over time for increased difficulty
-        if (currentSpawnRate > minSpawnRate)
+        if (_currentSpawnRate > minSpawnRate)
         {
-            currentSpawnRate -= spawnRateDecreaseFactor;
+            _currentSpawnRate -= spawnRateDecreaseFactor;
         }
     }
 
     void UpdatePipeMovement()
     {
-        foreach (GameObject pipe in pipePool)
+        foreach (GameObject pipe in _pipePool)
         {
             if (pipe.activeInHierarchy)
             {
@@ -92,7 +92,7 @@ public class PipeSpawnerScript : MonoBehaviour
                 pipe.transform.Translate(Vector3.left * pipeSpeed * Time.deltaTime);
 
                 // Deactivate the pipe once it moves off the screen
-                if (pipe.transform.position.x < -screenRightEdge)
+                if (pipe.transform.position.x < -_screenRightEdge)
                 {
                     pipe.SetActive(false);
                 }
